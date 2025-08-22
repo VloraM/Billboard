@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Billboard Banner || Full Example</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="no-js">
+
+  <section id="billboard"
+           class="bb-wrap"
+           role="region"
+           aria-label="Promotional Message"
+           aria-live="polite"
+           hidden>
+    <div class="bb-bg" data-state="loading" aria-hidden="true"></div>
+    <div class="bb-overlay" aria-hidden="true"></div>
+
+  
+    <div class="bb-inner" id="bb-inner" tabindex="-1">
+      <div class="bb-left">
+        <div class="bb-logo" aria-hidden="true">
+      
+          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo">
+            <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ffd400"/><stop offset="1" stop-color="#ff7a00"/></linearGradient></defs>
+            <rect x="0" y="0" width="256" height="256" rx="48" fill="url(#g)"/>
+            <path d="M72 172c0-44 36-80 80-80h32v36h-32a44 44 0 0 0 0 88h32v36h-32c-44 0-80-36-80-80Z" fill="#111"/>
+            <circle cx="96" cy="96" r="24" fill="#111"/>
+          </svg>
+        </div>
+        <div class="bb-text">
+          <h2 class="bb-title" id="bb-title">Billboard Title</h2>
+          <p class="bb-sub"   id="bb-sub">Short subtitle. 3 - 7 words. Clear message.</p>
+        </div>
+      </div>
+
+      <div class="bb-actions">
+        <a id="bb-cta" class="bb-cta" href="#" target="_blank" rel="noopener" aria-describedby="bb-sub">
+          Go now
+          <span aria-hidden="true">➜</span>
+        </a>
+        <button class="bb-close" id="bb-close" aria-label="Close ad" title="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="bb-badge" id="bb-badge" aria-hidden="true">Ad</div>
+  </section>
+
+  <div hidden style="max-width:970px;margin:16px auto;font:14px system-ui,Arial">
+
+  <div style="max-width:970px;margin:16px auto;font:14px system-ui,Arial">
+    <details>
+      <summary>Debug / Local statistics</summary>
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:8px;margin-top:8px">
+        <div>Impressions:</div><div><code id="imp"></code></div>
+        <div>Clicks:</div><div><code id="clk"></code></div>
+        <div>Dismiss Status (per ID):</div>
+        <div><code id="dms"></code></div>
+      </div>
+    </details>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

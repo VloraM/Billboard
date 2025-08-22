@@ -1,0 +1,108 @@
+/* ---------- Light reset ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+img{max-width:100%;display:block}
+button{cursor:pointer}
+
+/* ---------- Billboard container ---------- */
+.bb-wrap{
+  --bb-height-desktop: 250px;  /* 970x250 */
+  --bb-height-tablet:  90px;   /* 728x90  */
+  --bb-height-mobile:  100px;  /* 320x100 */
+  --bb-radius: 12px;
+  --bb-shadow: 0 8px 24px rgba(0,0,0,.15);
+  --bb-padding: 16px;
+  --bb-bg: #0b0b0c;
+  --bb-fg: #ffffff;
+  --bb-accent: #ffd400;
+  position: relative;
+  margin: 24px auto;
+  max-width: 970px;
+  min-height: var(--bb-height-desktop);
+  background: var(--bb-bg);
+  color: var(--bb-fg);
+  border-radius: var(--bb-radius);
+  overflow: hidden;
+  box-shadow: var(--bb-shadow);
+  isolation: isolate;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+}
+@media (max-width: 1024px){
+  .bb-wrap{max-width:728px; min-height: var(--bb-height-tablet);}
+}
+@media (max-width: 600px){
+  .bb-wrap{max-width: 100%; border-radius: 0; min-height: var(--bb-height-mobile); margin:0;}
+}
+
+/* Background (lazy, blur until loaded) */
+.bb-bg{
+  position:absolute; inset:0; z-index:0;
+  background: #111 center/cover no-repeat;
+  filter: blur(0);
+  transition: filter .4s ease, opacity .4s ease;
+  opacity: .95;
+}
+.bb-bg[data-state="loading"]{filter: blur(8px); opacity:.7;}
+
+/* Overlay gradient to enhance text contrast */
+.bb-overlay{
+  position:absolute; inset:0; z-index:0;
+  background: linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.25) 40%, rgba(0,0,0,0) 70%);
+}
+@media (max-width: 600px){
+  .bb-overlay{background: linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.15) 60%, rgba(0,0,0,0));}
+}
+
+/* Inside billboard */
+.bb-inner{
+  position: relative; z-index:1;
+  display:flex; align-items:center; gap:20px;
+  height: 100%; padding: var(--bb-padding);
+}
+.bb-left{display:flex; align-items:center; gap:12px; min-width:0;}
+.bb-logo{
+  width:64px; height:64px; border-radius:10px; background:#fff; display:grid; place-items:center; overflow:hidden;
+  flex: 0 0 auto;
+}
+.bb-logo svg{width:66%; height:66%}
+@media (max-width:1024px){ .bb-logo{width:56px; height:56px} }
+@media (max-width:600px){ .bb-logo{width:44px; height:44px} }
+
+.bb-text{display:grid; gap:6px; min-width:0}
+.bb-title{
+  font-weight:800; line-height:1.1;
+  font-size: clamp(16px, 2.2vw, 28px);
+  letter-spacing: .2px; margin:0; color:#fff;
+}
+.bb-sub{
+  margin:0; opacity:.9; line-height:1.25;
+  font-size: clamp(12px, 1.2vw, 16px);
+  white-space: nowrap; overflow:hidden; text-overflow: ellipsis;
+}
+
+.bb-actions{margin-left:auto; display:flex; align-items:center; gap:10px}
+.bb-cta{
+  appearance:none; border:0; padding:12px 18px; border-radius:10px;
+  background: var(--bb-accent); color:#111; font-weight:800; text-decoration:none;
+  display:inline-flex; align-items:center; gap:10px; font-size:16px;
+}
+.bb-cta:focus{outline:3px solid #fff; outline-offset:2px}
+.bb-cta[data-variant="ghost"]{background:transparent; outline:2px solid #fff; color:#fff}
+
+.bb-close{
+  appearance:none; border:0; width:36px; height:36px; border-radius:50%;
+  display:grid; place-items:center; background: rgba(0,0,0,.45);
+  color:#fff; margin-left:2px;
+}
+.bb-close:hover{background: rgba(0,0,0,.6)}
+.bb-close:focus{outline:3px solid #fff; outline-offset:2px}
+
+/* Small badge bottom right */
+.bb-badge{
+  position:absolute; right:10px; bottom:8px; z-index:1;
+  font-size:11px; opacity:.7; background:rgba(0,0,0,.55); padding:4px 6px; border-radius:6px;
+}
+
+/* Fallback if no JS: show only first slide */
+.no-js .bb-slide:not(:first-child){display:none;}
+.bb-slide{display:contents;}
