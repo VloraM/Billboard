@@ -1,4 +1,4 @@
-/* ----------------- CONFIGURATION ----------------- */
+
 const CAMPAIGNS = [
   {
     id: "summer-sale",
@@ -41,14 +41,14 @@ const CAMPAIGNS = [
 ];
 
 const SETTINGS = {
-  rotateEveryMs: 7000,     // rotate slide every 7s
-  showBadge: true,         // "Ad" in corner
-  storageKeyBase: "bb-dismissed-", // for frequency capping
+  rotateEveryMs: 7000,     
+  showBadge: true,         
+  storageKeyBase: "bb-dismissed-", 
   impressionKey: "bb-impressions",
   clickKey: "bb-clicks"
 };
 
-/* -------------- BUILD LOGIC -------------- */
+
 document.body.classList.remove('no-js');
 
 const el = {
@@ -62,7 +62,7 @@ const el = {
   inner: document.getElementById('bb-inner')
 };
 
-// pick first campaign not dismissed according to frequency capping
+
 function pickInitialCampaign() {
   for (const c of CAMPAIGNS) {
     if (!isDismissed(c)) return c;
@@ -75,7 +75,7 @@ function isDismissed(c) {
   const until = localStorage.getItem(k);
   if (!until) return false;
   const now = Date.now();
-  return now < Number(until); // still within dismissal period
+  return now < Number(until); 
 }
 
 function setDismissed(c) {
@@ -84,7 +84,7 @@ function setDismissed(c) {
   localStorage.setItem(SETTINGS.storageKeyBase + c.id, String(until));
 }
 
-// Basic statistics
+
 function bump(key){
   try{
     const raw = localStorage.getItem(key);
@@ -93,7 +93,7 @@ function bump(key){
   }catch(e){}
 }
 
-// Lazy-load background (not needed for data URL, but safe)
+
 function setBackground(src){
   if (!src){ el.bg.removeAttribute('style'); return; }
   el.bg.dataset.state = 'loading';
@@ -104,13 +104,13 @@ function setBackground(src){
     el.bg.dataset.state = 'ready';
   };
   img.onerror = () => {
-    // fallback to default color if load fails
+ 
     el.bg.dataset.state = 'ready';
   };
   img.src = src;
 }
 
-// Apply campaign to UI
+
 function renderCampaign(c){
   el.title.textContent = c.title;
   el.sub.textContent = c.sub;
@@ -124,7 +124,7 @@ function renderCampaign(c){
   el.badge.hidden = !SETTINGS.showBadge;
 }
 
-// Simple rotation
+
 let idx = 0;
 let current = pickInitialCampaign();
 if (current){
@@ -134,7 +134,7 @@ if (current){
   el.inner.focus({preventScroll:true});
   bump(SETTINGS.impressionKey);
 } else {
-  // all dismissed – remove
+
   document.getElementById('billboard').remove();
 }
 
@@ -154,7 +154,6 @@ function scheduleRotate(){
 }
 scheduleRotate();
 
-// Close via button or Esc key
 el.close.addEventListener('click', () => {
   if (current){ setDismissed(current); }
   el.root.remove();
@@ -166,13 +165,13 @@ document.addEventListener('keydown', (e)=>{
   }
 });
 
-// Track clicks (can POST to server here)
+
 el.cta.addEventListener('click', ()=> bump(SETTINGS.clickKey));
 
-// Export to window for debugging
+
 window.__BB__ = {CAMPAIGNS, SETTINGS};
 
-// Debug statistics display
+
 const imp = localStorage.getItem("bb-impressions")||0;
 const clk = localStorage.getItem("bb-clicks")||0;
 document.getElementById('imp').textContent = imp;
@@ -182,3 +181,4 @@ document.getElementById('dms').textContent =
     .filter(k=>k.startsWith("bb-dismissed-"))
     .map(k=>[k, new Date(Number(localStorage.getItem(k))).toISOString()])),
   null, 2);
+
